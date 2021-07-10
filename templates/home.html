@@ -36,6 +36,25 @@
             </div>           
         </div>
     </div>
+    {% if meds -%}
+    <div class="row mx-0">
+        <div class="card shadow-sm pt-2">
+            <div class="card-header">
+                <p class="h5">Medicines</p>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto;" id="list-available">
+                    {% for med in meds %}
+                    <div class="list-group-item">
+                        {{med}}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {%- endif %}
+
 </div>
 <p class="small text-muted mx-4">{{skey}}</p>
 {% endblock %}

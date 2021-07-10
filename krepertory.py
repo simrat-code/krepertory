@@ -47,11 +47,13 @@ def rubricsMeds():
 def home():
     if "selected" not in session.keys():
         session['selected'] = []
+        session['meds'] = []
         print('selected added')
     return render_template('home.html',
         selected = session['selected'],
+        meds = session['meds'],
         available = rublist, 
-        skey=app.secret_key
+        skey = app.secret_key
         )
 
 @app.route('/api/v1/addRubric/<string:rub>')
@@ -65,6 +67,7 @@ def addRubric(rub):
         flash("added: "+ rub, category='info')
     else:
         flash("already selected: "+ rub, category='warning')
+    apposition()
     return redirect(url_for('home'))
 
 @app.route('/api/v1/removeRubric/<string:rub>')
@@ -75,8 +78,20 @@ def removeRubric(rub):
     session['selected'].remove(rub)
     session.modified = True
     flash("removed: "+ rub, category='info')
+    apposition()
     return redirect(url_for('home'))
 
+#@app.route('/api/v1/apposition')
+def apposition():
+    if "selected" not in session.keys() or len(session.keys()) < 1:
+        return
+    resultset = {val for val in iDefault.keys()}
+    for rub in session["selected"]:
+        resultset = resultset.intersection(
+            {val for val in rubricsdb[rub].keys()}
+        )
+    session['meds'] = [v for v in resultset]
+    session.modified = True
 
 if __name__ == "__main__":
     app.run(
