@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}KRepertory{% endblock %}
+{% block main %}
+<div class="container-fluid">
+    <div class="row mb-4 mx-1">
+        <div class="col">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <p class="h4 text-center">Available Rubrics</p>
+                </div>                
+                <div class="card-body">
+                    <div class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto;" id="list-available">
+                        {% for rub in available %}
+                        <a href="{{url_for('addRubric', rub=rub)}}" class="list-group-item list-group-item-action">
+                            {{rub}}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <p class="h4 text-center">Selected Rubrics</p>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto;" id="list-available">
+                        {% for rub in selected %}
+                        <a href="{{url_for('removeRubric', rub=rub)}}" class="list-group-item list-group-item-action">
+                            {{rub}}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+<p class="small text-muted mx-4">{{skey}}</p>
+{% endblock %}
