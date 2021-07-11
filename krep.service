@@ -1,0 +1,18 @@
+# /etc/systemd/system/krep.service
+#
+# sudo systemctl start myproject
+# sudo systemctl enable myproject
+#
+[Unit]
+Description=uWSGI instance to serve KRepertory
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/html/krep
+Environment="PATH=/var/www/html/krep/.venv/bin"
+ExecStart=/var/www/html/krep/.venv/bin/uwsgi --ini wsgi.ini
+
+[Install]
+WantedBy=multi-user.target
