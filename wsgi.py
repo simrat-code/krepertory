@@ -1,5 +1,5 @@
 
-from krepertory import app
+from krepapp import app
 
 if __name__ == "__main__":
     app.run()
