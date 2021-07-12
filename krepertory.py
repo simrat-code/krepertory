@@ -9,9 +9,9 @@ from flask import request
 from flask import session
 from flask import redirect
 from os import environ
-from rubrics import iDefault
-from rubrics import rubricsdb
-import config
+from kreprubrics import iDefault
+from kreprubrics import rubricsdb
+import krepconfig
 
 # FLASK_ENV="production"
 # uwsgi --ini wsgi.ini
