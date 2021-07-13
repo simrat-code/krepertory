@@ -9,14 +9,18 @@
                     <p class="h5 text-center">Available Rubrics</p>
                 </div>                
                 <div class="card-body">
-                    <input id="mysearch" type="search" class="form-control" onkeyup="myFunction()" placeholder="search here...">
-                    <ul class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto;" id="listavailable">
+                    <input id="mysearch" type="search" class="form-control" 
+                    onkeyup="myFunction()" placeholder="search here...">
+                    <ul id="listavailable" class="list-group list-group-flush" 
+                    style="max-height: 50vh; overflow-y: auto;" >
                         {% for rub in available %}
-                        <li><a href="{{url_for('addRubric', rub=rub)}}" class="list-group-item list-group-item-action contsearch">
-                            {{rub}}
-                        </a></li>
-                        {% endfor %}
-                        
+                        <li>
+                            <a href="{{url_for('addRubric', rub=rub)}}" 
+                            class="list-group-item list-group-item-action contsearch">
+                                {{rub}}
+                            </a>
+                        </li>
+                        {% endfor %}                        
                     </ul>
                 </div>
             </div>
@@ -27,13 +31,17 @@
                     <p class="h5 text-center">Selected Rubrics</p>
                 </div>
                 <div class="card-body">
-                    <div class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto;" id="listselected">
+                    <ul id="listselected" class="list-group list-group-flush" 
+                    style="max-height: 50vh; overflow-y: auto;" >
                         {% for rub in selected %}
-                        <a href="{{url_for('removeRubric', rub=rub)}}" class="list-group-item list-group-item-action">
-                            {{rub}}
-                        </a>
+                        <li>
+                            <a href="{{url_for('removeRubric', rub=rub)}}" 
+                            class="list-group-item list-group-item-action">
+                                {{rub}}
+                            </a>
+                        </li>
                         {% endfor %}
-                    </div>
+                    </ul>
                 </div>
             </div>           
         </div>
@@ -45,7 +53,8 @@
                 <p class="h5">Remedies</p>
             </div>
             <div class="card-body">
-                <div class="list-group list-group-flush" style="max-height: 50vh; overflow-y: auto;" id="list-available">
+                <div id="listremedy" class="list-group list-group-flush" 
+                style="max-height: 50vh; overflow-y: auto;" >
                     {% for med in meds %}
                     <div class="list-group-item">
                         {{med}}
