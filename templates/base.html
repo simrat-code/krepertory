@@ -8,6 +8,27 @@
 
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css') }}">
         <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+        <script>
+            function myFunction() {
+                // Declare variables
+                var input, filter, ul, li, a, i, txtValue;
+                input = document.getElementById('mysearch');
+                filter = input.value.toUpperCase();
+                ul = document.getElementById("listavailable");
+                li = ul.getElementsByTagName('li');  
+              
+                // Loop through all list items, and hide those who don't match the search query
+                for (i = 0; i < li.length; i++) {
+                  a = li[i].getElementsByTagName("a")[0];   //'a' -> <a href=#>XYZ</a>
+                  txtValue = a.textContent || a.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                  } else {
+                    li[i].style.display = "none";
+                  }
+                }
+              }
+        </script>
     </head>
 
     <body>
