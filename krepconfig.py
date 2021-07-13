@@ -9,11 +9,11 @@ class Config(object):
  
     DEBUG = False
     TESTING = False
-    SECRET_KEY = environ.get("APP_SECRET_KEY", default=urandom(16))
+    SECRET_KEY = environ.get("APP_SECRET_KEY", default=str(urandom(16).hex()))
  
 class DevelopmentConfig(Config):
     DEBUG = True
-    SECRET_KEY = 'INSECURE_FOR_LOCAL_DEVELOPMENT'
+    SECRET_KEY = 'INSECURE_LOCALDEV_' + str(urandom(8).hex())
  
 class ProductionConfig(Config):
     DEBUG = False

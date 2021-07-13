@@ -25,11 +25,7 @@ app = Flask(__name__)
 #     )
 
 environment = environ.get("FLASK_ENV", default="development")
-if environment == "production":
-   cfg = krepconfig.ProductionConfig()
-else:
-    cfg = krepconfig.DevelopmentConfig()
- 
+cfg = krepconfig.ProductionConfig() if environment == "production" else krepconfig.DevelopmentConfig()
 app.config.from_object(cfg)
 
 @app.errorhandler(404)
@@ -64,6 +60,13 @@ def home():
         available = rublist, 
         skey = app.secret_key
         )
+
+@app.route("/krep/reset")
+def reset():
+    session["selected"].clear()
+    session["meds"].clear()
+    flash('All selections cleared', 'warning')
+    return redirect(url_for('home'))
 
 @app.route('/krep/api/v1/add/<string:rub>')
 def addRubric(rub):
