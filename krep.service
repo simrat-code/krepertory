@@ -8,8 +8,8 @@ Description=uWSGI instance to serve KRepertory
 After=network.target
 
 [Service]
-User=www-data
-Group=www-data
+User=username
+Group=www-data  # nginx for CentOS
 WorkingDirectory=/var/www/html/krep
 Environment="PATH=/var/www/html/krep/.venv/bin"
 ExecStart=/var/www/html/krep/.venv/bin/uwsgi --ini wsgi.ini

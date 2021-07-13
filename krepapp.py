@@ -1,5 +1,4 @@
 
-
 from flask.helpers import flash
 from flask.helpers import url_for
 from flask.templating import render_template
@@ -11,7 +10,7 @@ from flask import redirect
 from os import environ
 from kreprubrics import iDefault
 from kreprubrics import rubricsdb
-import krepconfig
+import krepconfig 
 
 # FLASK_ENV="production"
 # uwsgi --ini wsgi.ini
@@ -27,9 +26,9 @@ app = Flask(__name__)
 
 environment = environ.get("FLASK_ENV", default="development")
 if environment == "production":
-   cfg = config.ProductionConfig()
+   cfg = krepconfig.ProductionConfig()
 else:
-    cfg = config.DevelopmentConfig()
+    cfg = krepconfig.DevelopmentConfig()
  
 app.config.from_object(cfg)
 
@@ -66,7 +65,7 @@ def home():
         skey = app.secret_key
         )
 
-@app.route('/krep/api/v1/addRubric/<string:rub>')
+@app.route('/krep/api/v1/add/<string:rub>')
 def addRubric(rub):
     if "selected" not in session.keys():
         flash('Server resetted, kindly re-select', 'error')
@@ -80,7 +79,7 @@ def addRubric(rub):
     apposition()
     return redirect(url_for('home'))
 
-@app.route('/krep/api/v1/removeRubric/<string:rub>')
+@app.route('/krep/api/v1/remove/<string:rub>')
 def removeRubric(rub):
     if "selected" not in session.keys():
         flash('Server resetted, kindly re-select', 'error')
@@ -92,7 +91,7 @@ def removeRubric(rub):
     return redirect(url_for('home'))
 
 def apposition():
-    if "selected" not in session.keys() or len(session["selected"]) < 1:
+    if "selected" not in session.keys() or len(session["selected"]) == 0:
         session["meds"].clear()
         return
     resultset = {val for val in iDefault.keys()}
