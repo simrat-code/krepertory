@@ -6,7 +6,9 @@
         <div class="col">
             <div class="card mb-1 shadow-sm">
                 <div class="card-header">
-                    <p class="h5 text-center">Available Rubrics</p>
+                    <p class="h5 text-center" style="white-space: nowrap;">
+                        Available Rubrics
+                    </p>
                 </div>                
                 <div class="card-body">
                     <input id="mysearch" type="search" class="form-control" 
@@ -28,26 +30,29 @@
         <div class="col">
             <div class="card mb-1 shadow-sm">
                 <div class="card-header">
-                    <p class="h5 text-center">Selected Rubrics</p>
+                    <p class="h5 text-center" style="white-space: nowrap;">
+                        Selected Rubrics
+                    </p>
                 </div>
                 <div class="card-body">
                     <ul id="listselected" class="list-group list-group-flush" 
                     style="max-height: 50vh; overflow-y: auto;" >
                         {% if not selected %}
                         <li>
-                            <a href="#" class="list-group-item disabled" aria-disabled="true">
+                            <a href="#" class="list-group-item disabled" tabindex="-1" aria-disabled="true">
                                 No Rubric Selected
                             </a>
                         </li>
+                        {% else %}
+                            {% for rub in selected %}
+                            <li>
+                                <a href="{{url_for('removeRubric', rub=rub)}}" 
+                                class="list-group-item list-group-item-action">
+                                    {{rub}}
+                                </a>
+                            </li>
+                            {% endfor %}
                         {% endif %}
-                        {% for rub in selected %}
-                        <li>
-                            <a href="{{url_for('removeRubric', rub=rub)}}" 
-                            class="list-group-item list-group-item-action">
-                                {{rub}}
-                            </a>
-                        </li>
-                        {% endfor %}
                     </ul>
                 </div>
             </div>           
