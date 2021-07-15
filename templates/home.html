@@ -33,6 +33,13 @@
                 <div class="card-body">
                     <ul id="listselected" class="list-group list-group-flush" 
                     style="max-height: 50vh; overflow-y: auto;" >
+                        {% if not selected %}
+                        <li>
+                            <a href="#" class="list-group-item disabled" aria-disabled="true">
+                                No Rubric Selected
+                            </a>
+                        </li>
+                        {% endif %}
                         {% for rub in selected %}
                         <li>
                             <a href="{{url_for('removeRubric', rub=rub)}}" 
