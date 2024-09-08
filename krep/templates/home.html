@@ -17,7 +17,7 @@
                     style="max-height: 50vh; overflow-y: auto;" >
                         {% for rub in available %}
                         <li>
-                            <a href="{{url_for('addRubric', rub=rub)}}" 
+                            <a href="{{url_for('krepapp.addRubric', rub=rub)}}" 
                             class="list-group-item list-group-item-action">
                                 {{rub}}
                             </a>
@@ -46,7 +46,7 @@
                         {% else %}
                             {% for rub in selected %}
                             <li>
-                                <a href="{{url_for('removeRubric', rub=rub)}}" 
+                                <a href="{{url_for('krepapp.removeRubric', rub=rub)}}" 
                                 class="list-group-item list-group-item-action">
                                     {{rub}}
                                 </a>

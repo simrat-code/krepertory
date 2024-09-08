@@ -7,40 +7,33 @@ from flask import jsonify
 from flask import request
 from flask import session
 from flask import redirect
+from flask import current_app
 from os import environ
-from kreprubrics import iDefault
-from kreprubrics import rubricsdb
-import krepconfig 
+from .kreprubrics import iDefault
+from .kreprubrics import rubricsdb
 
-# FLASK_ENV="production"
-# uwsgi --ini wsgi.ini
+from flask import (
+    Blueprint, flash, g, redirect, render_template, request, session, url_for
+)
 
 rublist = [rub for rub in rubricsdb.keys()]
 
-app = Flask(__name__)
-# key for session
-# app.secret_key = ''.join(random.SystemRandom().choice(
-#     string.ascii_uppercase + string.digits + string.ascii_lowercase) 
-#     for _ in range(32)
-#     )
+bp = Blueprint('krepapp', __name__, url_prefix='/krep')
 
-environment = environ.get("FLASK_ENV", default="development")
-cfg = krepconfig.ProductionConfig() if environment == "production" else krepconfig.DevelopmentConfig()
-app.config.from_object(cfg)
 
-@app.errorhandler(404)
+@bp.errorhandler(404)
 def pageNotFound(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-@app.route('/krep/api/v1/test')
+@bp.route('/api/v1/test')
 def test():
     return "this is just a test string"
 
-@app.route('/krep/api/v1/rubrics/all')
+@bp.route('/api/v1/rubrics/all')
 def rubricsAll():
     return jsonify(rublist)
 
-@app.route('/krep/api/v1/rubrics/meds')
+@bp.route('/api/v1/rubrics/meds')
 def rubricsMeds():
     if 'name' not in request.args:
         return pageNotFound(404)
@@ -48,31 +41,34 @@ def rubricsMeds():
     return jsonify(rubricsdb[rub])
 
 
-@app.route('/krep/')
+@bp.route('/home', methods=['GET'])
 def home():
     if "selected" not in session.keys():
         session['selected'] = []
         session['meds'] = []
-        print('selected added')
+        print('[=] selected added')
+
     return render_template('home.html',
         selected = session['selected'],
         meds = session['meds'],
         available = rublist, 
-        skey = app.secret_key
+        skey = current_app.secret_key
         )
 
-@app.route("/krep/reset")
+
+@bp.route("/reset")
 def reset():
     session["selected"].clear()
     session["meds"].clear()
     flash('All selections cleared', 'warning')
-    return redirect(url_for('home'))
+    return redirect(url_for('krepapp.home'))
 
-@app.route('/krep/api/v1/add/<string:rub>')
+
+@bp.route('/api/v1/add/<string:rub>')
 def addRubric(rub):
     if "selected" not in session.keys():
         flash('Server resetted, kindly re-select', 'error')
-        return redirect(url_for('home'))
+        return redirect(url_for('krepapp.home'))
     if rub not in session['selected']: 
         session['selected'].append(rub)
         session.modified = True
@@ -80,18 +76,20 @@ def addRubric(rub):
     else:
         flash("already selected: "+ rub, category='warning')
     apposition()
-    return redirect(url_for('home'))
+    return redirect(url_for('krepapp.home'))
 
-@app.route('/krep/api/v1/remove/<string:rub>')
+
+@bp.route('/api/v1/remove/<string:rub>')
 def removeRubric(rub):
     if "selected" not in session.keys():
         flash('Server resetted, kindly re-select', 'error')
-        return redirect(url_for('home'))
+        return redirect(url_for('krepapp.home'))
     session['selected'].remove(rub)
     session.modified = True
     flash("removed: "+ rub, category='info')
     apposition()
-    return redirect(url_for('home'))
+    return redirect(url_for('krepapp.home'))
+
 
 def apposition():
     if "selected" not in session.keys() or len(session["selected"]) == 0:
@@ -105,9 +103,9 @@ def apposition():
     session['meds'] = [v for v in resultset]
     session.modified = True
 
-if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=5001
-    )
+# if __name__ == "__main__":
+#     app.run(
+#         host="0.0.0.0",
+#         port=5001
+#     )
     # done
