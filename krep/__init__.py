@@ -6,6 +6,8 @@
 # pip install pyuwsgi
 # uwsgi --ini wsgi.ini
 #
+# [wsgi:krep.sock] <--> [nginx] <--> [client]
+#
 
 import os
 from flask import Flask
