@@ -1,5 +1,9 @@
 #
 # flask --app krep run --debug
+#
+# sudo apt-get update
+# sudo apt-get install gcc build-essential
+# pip install pyuwsgi
 # uwsgi --ini wsgi.ini
 #
 
