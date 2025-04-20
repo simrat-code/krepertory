@@ -46,7 +46,7 @@ def home():
     if "selected" not in session.keys():
         session['selected'] = []
         session['meds'] = []
-        print('[=] selected added')
+        print('[=] list "selected" added to session')
 
     return render_template('home.html',
         selected = session['selected'],
