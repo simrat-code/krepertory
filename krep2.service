@@ -1,0 +1,20 @@
+[Unit]
+Description=Gunicorn service for Flask app
+After=network.target
+
+[Service]
+User=youruser
+Group=www-data
+WorkingDirectory=/var/www/html/krep
+Environment="PATH=/var/www/html/krep/.venv/bin"
+ExecStart=/var/www/html/krep/.venv/bin/gunicorn \
+          --workers 2 \
+          --threads 2 \
+          --bind 127.0.0.1:5000 \
+          wsgi:app
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
