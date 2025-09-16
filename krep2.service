@@ -10,7 +10,7 @@ Environment="PATH=/var/www/html/krep/.venv/bin"
 ExecStart=/var/www/html/krep/.venv/bin/gunicorn \
           --workers 2 \
           --threads 2 \
-          --bind 127.0.0.1:5000 \
+          --bind unix:/var/www/html/krep/krep.sock \
           wsgi:app
 
 Restart=always
